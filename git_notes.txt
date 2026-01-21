@@ -1,0 +1,30 @@
+# Creating a new git instance
+git init
+# Connecting to remote repository
+git remote add origin git@github.com:jodon7/DCS_Simplify.git
+# Testing remote origin
+git remote -v
+# Changing master branch name to main
+git branch -m master main
+#Pushing everything to remote repository
+git add --all
+git commit -m "new changes"
+git push
+####
+## Once merge pull requests complete do the following
+git push
+
+
+## Creating a new branch
+git checkout  -b branchname
+## Switching branches
+git checkout branchname
+
+$ python -m PyInstaller gui.py
+
+
+# Git hub login CLI
+gh auth login
+## follow steps and use authentication token, in github.com make sure to select repo, read:org, and workflow.
+# To create new repository do the following
+gh repo create my-repo --public --source=. --remote=origin --push
