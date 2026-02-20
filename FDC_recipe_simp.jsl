@@ -1,0 +1,129 @@
+/*
+This script simplifies recipes and strips chamber and data file paths.
+For additional questions contact John O'Donovan.
+*/
+
+dt = Current Data Table();
+
+/* Create a new computed column named "Clean Recipe" */
+dt << New Column(
+    "Clean Recipe",
+    Character,
+    Nominal,
+    Formula(
+        Substitute(
+            :RECIPE,
+
+            /* --- SCCM‑POLY P‑Pn (most specific first) --- */
+            "SCCM-POLY/P1/P-P1-", "",
+            "SCCM-POLY/P2/P-P2-", "",
+            "SCCM-POLY/P3/P-P3-", "",
+            "SCCM-POLY/P4/P-P4-", "",
+            "SCCM-POLY/P5/P-P5-", "",
+            "SCCM-POLY/P6/P-P6-", "",
+
+            /* --- SCCM‑POLY P‑ (generic) --- */
+            "SCCM-POLY/P1/P-", "",
+            "SCCM-POLY/P2/P-", "",
+            "SCCM-POLY/P3/P-", "",
+            "SCCM-POLY/P4/P-", "",
+            "SCCM-POLY/P5/P-", "",
+            "SCCM-POLY/P6/P-", "",
+
+            /* --- SCCM‑POLY S‑ / E‑Pn / E‑ / M‑Pn --- */
+            "SCCM-POLY/P1/S-", "",
+            "SCCM-POLY/P1/E-P1-", "",   /* specific before generic */
+            "SCCM-POLY/P1/E-", "",
+            "SCCM-POLY/P1/M-P1-", "",
+
+            "SCCM-POLY/P2/S-", "",
+            "SCCM-POLY/P2/E-P2-", "",
+            "SCCM-POLY/P2/E-", "",
+            "SCCM-POLY/P2/M-P2-", "",
+
+            "SCCM-POLY/P3/S-", "",
+            "SCCM-POLY/P3/E-P3-", "",
+            "SCCM-POLY/P3/E-", "",
+            "SCCM-POLY/P3/M-P3-", "",
+
+            "SCCM-POLY/P4/S-", "",
+            "SCCM-POLY/P4/E-P4-", "",
+            "SCCM-POLY/P4/E-", "",
+            "SCCM-POLY/P4/M-P4-", "",
+
+            "SCCM-POLY/P5/S-", "",
+            "SCCM-POLY/P5/E-P5-", "",
+            "SCCM-POLY/P5/E-", "",
+            "SCCM-POLY/P5/M-P5-", "",
+
+            "SCCM-POLY/P6/S-", "",
+            "SCCM-POLY/P6/E-P6-", "",
+            "SCCM-POLY/P6/E-", "",
+            "SCCM-POLY/P6/M-P6-", "",
+
+            /* --- SYSTEM/LPC MULTI --- */
+            "SYSTEM/LPC/MULTI/P-", "",
+            "SYSTEM/LPC/MULTI/M-", "",
+            "SYSTEM/LPC/MULTI/E-", "",
+
+            /* --- SYSTEM/LPC Pn P‑Pn (most specific first, in case it appears) --- */
+            "SYSTEM/LPC/P1/P-P1-", "",
+            "SYSTEM/LPC/P2/P-P2-", "",
+            "SYSTEM/LPC/P3/P-P3-", "",
+            "SYSTEM/LPC/P4/P-P4-", "",
+            "SYSTEM/LPC/P5/P-P5-", "",
+            "SYSTEM/LPC/P6/P-P6-", "",
+
+            /* --- SYSTEM/LPC Pn P‑ (generic) --- */
+            "SYSTEM/LPC/P1/P-", "",
+            "SYSTEM/LPC/P2/P-", "",
+            "SYSTEM/LPC/P3/P-", "",
+            "SYSTEM/LPC/P4/P-", "",
+            "SYSTEM/LPC/P5/P-", "",
+            "SYSTEM/LPC/P6/P-", "",
+
+            /* --- SYSTEM/LPC P1 variants (+ known typo) --- */
+            "SYSTEM/LPC/P1/S-", "",
+            "SYSTEM/LPC/P1/E-P1-", "",  /* added */
+            "SYSTEM/LPC/P1/E-", "",
+            "SYSTEM/LPC/P1/M-P1-", "",
+            "YSTEM/LPC/P1/S-", "",
+
+            /* --- SYSTEM/LPC P2–P6 S‑ / E‑Pn / E‑ / M‑Pn --- */
+            "SYSTEM/LPC/P2/S-", "",
+            "SYSTEM/LPC/P2/E-P2-", "",  /* added */
+            "SYSTEM/LPC/P2/E-", "",
+            "SYSTEM/LPC/P2/M-P2-", "",
+
+            "SYSTEM/LPC/P3/S-", "",
+            "SYSTEM/LPC/P3/E-P3-", "",  /* added: fixes your P3 case */
+            "SYSTEM/LPC/P3/E-", "",
+            "SYSTEM/LPC/P3/M-P3-", "",
+
+            "SYSTEM/LPC/P4/S-", "",
+            "SYSTEM/LPC/P4/E-P4-", "",  /* added */
+            "SYSTEM/LPC/P4/E-", "",
+            "SYSTEM/LPC/P4/M-P4-", "",
+
+            "SYSTEM/LPC/P5/S-", "",
+            "SYSTEM/LPC/P5/E-P5-", "",  /* added */
+            "SYSTEM/LPC/P5/E-", "",
+            "SYSTEM/LPC/P5/M-P5-", "",
+
+            "SYSTEM/LPC/P6/S-", "",
+            "SYSTEM/LPC/P6/E-P6-", "",  /* added */
+            "SYSTEM/LPC/P6/E-", "",
+            "SYSTEM/LPC/P6/M-P6-", "",
+
+            /* --- SCCM-POLY M RECIPES (kept if data varies) --- */
+            "SCCM-POLY/P1/M-P1-", "",
+            "SCCM-POLY/P2/M-P2-", "",
+            "SCCM-POLY/P3/M-P3-", "",
+            "SCCM-POLY/P4/M-P4-", "",
+            "SCCM-POLY/P5/M-P5-", "",
+            "SCCM-POLY/P6/M-P6-", ""
+
+            /* NOTE: No duplicate SCCM-POLY E-Pn block at the end */
+        )
+    )
+);

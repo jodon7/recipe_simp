@@ -1,0 +1,103 @@
+﻿
+/* 
+This script simplifies recipes and strips chamber and data file paths.
+For additional questions contact John O'Donovan.
+*/
+
+
+dt = Current Data Table();
+
+/* Create a new computed column named "Clean Recipe" */
+dt << New Column(
+    "Clean Recipe",
+    Character,
+    Nominal,
+    Formula(
+
+        Substitute(
+            :Process Recipe Name,
+
+            /* --- SCCM‑POLY P‑Pn (most specific first) --- */
+            "Process/P1/P-P1-", "",
+            "Process/P2/P-P2-", "",
+            "Process/P3/P-P3-", "",
+            "Process/P4/P-P4-", "",
+            "Process/P5/P-P5-", "",
+            "Process/P6/P-P6-", "",
+
+            /* --- SCCM‑POLY P‑ --- */
+            "Process/P1/P-", "",
+            "Process/P2/P-", "",
+            "Process/P3/P-", "",
+            "Process/P4/P-", "",
+            "Process/P5/P-", "",
+            "Process/P6/P-", "",
+
+            /* --- SCCM‑POLY S‑ / E‑ / M‑Pn --- */
+            "Process/P1/S-", "",
+            "Process/P1/E-", "",
+            "Process/P1/M-P1-", "",
+
+            "Process/P2/S-", "",
+            "Process/P2/E-", "",
+            "Process/P2/M-P2-", "",
+
+            "Process/P3/S-", "",
+            "Process/P3/E-", "",
+            "Process/P3/M-P3-", "",
+
+            "Process/P4/S-", "",
+            "Process/P4/E-", "",
+            "Process/P4/M-P4-", "",
+
+            "Process/P5/S-", "",
+            "Process/P5/E-", "",
+            "Process/P5/M-P5-", "",
+
+            "Process/P6/S-", "",
+            "Process/P6/E-", "",
+            "Process/P6/M-P6-", "",
+
+            /* --- Process MULTI --- */
+            "Process/MULTI/P-", "",
+            "Process/MULTI/M-", "",
+            "Process/MULTI/E-", "",
+
+            /* --- Process Pn P‑ --- */
+            "Process/P1/P-", "",
+            "Process/P2/P-", "",
+            "Process/P3/P-", "",
+            "Process/P4/P-", "",
+            "Process/P5/P-", "",
+            "Process/P6/P-", "",
+
+            /* --- Process P1 variants (+ known typo) --- */
+            "Process/P1/E-", "",
+            "Process/P1/M-P1-", "",
+            "Process/P1/S-", "",
+            "YSTEM/LPC/P1/S-", "",
+
+            /* --- Process P2–P6 S‑ / E‑ / M‑Pn --- */
+            "Process/P2/E-", "",
+            "Process/P2/M-P2-", "",
+            "Process/P2/S-", "",
+
+            "Process/P3/E-", "",
+            "Process/P3/M-P3-", "",
+            "Process/P3/S-", "",
+
+            "Process/P4/E-", "",
+            "Process/P4/M-P4-", "",
+            "Process/P4/S-", "",
+
+            "Process/P5/E-", "",
+            "Process/P5/M-P5-", "",
+            "Process/P5/S-", "",
+
+            "Process/P6/E-", "",
+            "Process/P6/M-P6-", "",
+            "Process/P6/S-", ""
+        )
+    )
+);
+

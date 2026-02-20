@@ -1,0 +1,7 @@
+Substitute( :Process Recipe Name,
+	"Process/P2/P-P2-", "",
+	"Process/P2/M-P2-", "",
+	"Process/P2/P-", "",
+	"Process/P2/P-P2-", "",
+	"Process/P2/E-P2-", ""
+)
